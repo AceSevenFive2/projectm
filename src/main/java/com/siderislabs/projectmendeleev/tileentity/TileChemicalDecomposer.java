@@ -33,33 +33,43 @@ public class TileChemicalDecomposer extends TileEntity implements IInventory, IT
 	public Configuration mainConfig;
 
 	public void update() throws IOException {
-		// If there is nothing to smelt or there is no room in the output, reset cookTime and return
-		if(itemStacks[FIRST_INPUT_SLOT] != null ) {
-			doDecomposeItem("yes");
-	}
-}
-	
-	private boolean doDecomposeItem(String really) throws IOException {
-		Integer tmp = 0;
-		ArrayList<ItemStack> result = null;
-		if(really == "yes") {
-			for (int i = FIRST_OUTPUT_SLOT; i <= OUTPUT_SLOTS_COUNT; i++) {
-				if(itemStacks[i] != null) {
-					tmp = tmp + 1;
-				}
+		int itemStackUpdated = 0;
+		for(int i = 1; i < itemStacks.length; i++) {
+			if(itemStacks[i] != null) {
 			}
-			if (tmp == OUTPUT_SLOTS_COUNT) {
-				return false;
-			}
-			else {
-				result = RecipeConfig.getDecomposerRecipeForEntity(itemStacks[FIRST_INPUT_SLOT]);
-				for(int i = 0; i <= result.size(); i++) {
-					itemStacks[FIRST_OUTPUT_SLOT + i] = result.get(i);
+			if(itemStackUpdated == 1) {
+				for(i = 1; i < itemStacks.length; i++) {
+					setInventorySlotContents(i, itemStacks[i]);
 				}
 			}
 		}
-		return false;
+		if(itemStacks[FIRST_INPUT_SLOT] != null ) {
+			System.out.println(itemStacks[FIRST_INPUT_SLOT]);
+			doDecomposeItem();
+		}
 	}
+	
+	private boolean doDecomposeItem() throws IOException {
+		Integer tmp = 0;
+		System.out.println("Started to decompose item");
+		ArrayList<ItemStack> result = null;
+		for (int i = FIRST_OUTPUT_SLOT; i <= OUTPUT_SLOTS_COUNT; i++) {
+			if(itemStacks[i] != null) {
+				tmp = tmp + 1;
+			}
+		}
+		if (tmp == OUTPUT_SLOTS_COUNT) {
+			return false;
+		}
+		else {
+			result = RecipeConfig.getDecomposerRecipeForEntity(itemStacks[FIRST_INPUT_SLOT]);
+			System.out.println(result.toString());
+			for(int i = 0; i <= result.size(); i++) {
+				itemStacks[FIRST_OUTPUT_SLOT + i] = result.get(i).copy();
+			}
+		}
+		return false;
+}
 
 	@Override
 	public void tick() {

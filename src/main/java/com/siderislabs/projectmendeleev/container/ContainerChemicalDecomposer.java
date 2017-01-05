@@ -50,7 +50,6 @@ public class ContainerChemicalDecomposer extends Container {
 
 	private final int VANILLA_FIRST_SLOT_INDEX = 0;
 	private final int FIRST_INPUT_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-	private final int FIRST_OUTPUT_SLOT_INDEX = FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT;
 
 	// slot number is the slot number within each component; i.e. invPlayer slots 0 - 35, and tileInventoryFurnace slots 0 - 14
 	private final int FIRST_INPUT_SLOT_NUMBER = 0 + INPUT_SLOTS_COUNT;
@@ -61,23 +60,21 @@ public class ContainerChemicalDecomposer extends Container {
 
 		final int SLOT_X_SPACING = 18;
 		final int SLOT_Y_SPACING = 18;
-		final int HOTBAR_XPOS = 8;
-		final int HOTBAR_YPOS = 183;
-		for (int x = 0; x <= HOTBAR_SLOT_COUNT; x++) {
-			int slotNumber = x;
-			addSlotToContainer(new Slot(invPlayer, slotNumber, HOTBAR_XPOS + SLOT_X_SPACING * x, HOTBAR_YPOS));
-		}
+	    int i;
+	       for (i = 0; i < 3; ++i)
+	       {
+	           for (int j = 0; j < 9; ++j)
+	           {
+	               addSlotToContainer(new Slot(invPlayer, j+i*9+9, 
+	               8+j*18, 84+i*18));
+	           }
+	       }
 
-		final int PLAYER_INVENTORY_XPOS = 8;
-		final int PLAYER_INVENTORY_YPOS = 125;
-		for (int y = 0; y <= PLAYER_INVENTORY_ROW_COUNT; y++) {
-			for (int x = 0; x <= PLAYER_INVENTORY_COLUMN_COUNT; x++) {
-				int slotNumber = HOTBAR_SLOT_COUNT + y * PLAYER_INVENTORY_COLUMN_COUNT + x;
-				int xpos = PLAYER_INVENTORY_XPOS + x * SLOT_X_SPACING;
-				int ypos = PLAYER_INVENTORY_YPOS + y * SLOT_Y_SPACING;
-				addSlotToContainer(new Slot(invPlayer, slotNumber,  xpos, ypos));
-			}
-		}
+	       for (i = 0; i < 9; ++i)
+	       {
+	           addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 
+	           142));
+	       }
 
 		final int INPUT_SLOTS_XPOS = 79;
 		final int INPUT_SLOTS_YPOS = 15;
@@ -105,7 +102,6 @@ public class ContainerChemicalDecomposer extends Container {
 		return tileChemicalDecomposer.isUseableByPlayer(player);
 	}
 
-
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
 	{
@@ -120,22 +116,15 @@ public class ContainerChemicalDecomposer extends Container {
 			// If the stack is smeltable try to merge merge the stack into the input slots
 			try {
 				if (RecipeConfig.getDecomposerRecipeForEntity(sourceStack) != null) {
-					if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
+					if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)){
 						return null;
 					}
-				}	
-				else {
+				}	else {
 					return null;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-		} else if (sourceSlotIndex >= FIRST_OUTPUT_SLOT_INDEX && sourceSlotIndex < FIRST_OUTPUT_SLOT_INDEX + SLOTS_TOTAL_COUNT) {
-			// This is a furnace slot so merge the stack into the players inventory: try the hotbar first and then the main inventory
-			//   because the main inventory slots are immediately after the hotbar slots, we can just merge with a single call
-			if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-				return null;
 			}
 		} else {
 			System.err.print("Invalid slotIndex:" + sourceSlotIndex);
