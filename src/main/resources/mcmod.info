@@ -1,0 +1,16 @@
+[
+{
+  "modid": "projectm",
+  "name": "Project Mendeleev",
+  "description": "This is a mod that adds various chemistry concepts to Minecraft.",
+  "version": "0.01",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["AceSevenFive"],
+  "credits": "AceSevenFive",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
