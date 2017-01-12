@@ -22,53 +22,23 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.config.Configuration;
 
-public class TileChemicalDecomposer extends TileEntity implements IInventory, ITickable {
+public class TileChemicalDecomposer extends TileEntity implements ITickable {
 
-	public static final int INPUT_SLOTS_COUNT = 1;
-	public static final int OUTPUT_SLOTS_COUNT = 18;
-	public static final int TOTAL_SLOTS_COUNT = INPUT_SLOTS_COUNT + OUTPUT_SLOTS_COUNT;
-	public static final int FIRST_INPUT_SLOT = 0;
-	public static final int FIRST_OUTPUT_SLOT = 1;
-	private ItemStack[] itemStacks = new ItemStack[TOTAL_SLOTS_COUNT];
+	private ItemStack currentStack = new ItemStack();
 	public Configuration mainConfig;
 
 	public void update() throws IOException {
-		int itemStackUpdated = 0;
-		for(int i = 1; i < itemStacks.length; i++) {
-			if(itemStacks[i] != null) {
-			}
-			if(itemStackUpdated == 1) {
-				for(i = 1; i < itemStacks.length; i++) {
-					setInventorySlotContents(i, itemStacks[i]);
-				}
-			}
-		}
-		if(itemStacks[FIRST_INPUT_SLOT] != null ) {
-			System.out.println(itemStacks[FIRST_INPUT_SLOT]);
+		if(currentStack != null) {
 			doDecomposeItem();
 		}
 	}
 	
 	private boolean doDecomposeItem() throws IOException {
-		Integer tmp = 0;
-		System.out.println("Started to decompose item");
-		ArrayList<ItemStack> result = null;
-		for (int i = FIRST_OUTPUT_SLOT; i <= OUTPUT_SLOTS_COUNT; i++) {
-			if(itemStacks[i] != null) {
-				tmp = tmp + 1;
-			}
-		}
-		if (tmp == OUTPUT_SLOTS_COUNT) {
-			return false;
-		}
-		else {
-			result = RecipeConfig.getDecomposerRecipeForEntity(itemStacks[FIRST_INPUT_SLOT]);
-			System.out.println(result.toString());
-			for(int i = 0; i <= result.size(); i++) {
-				itemStacks[FIRST_OUTPUT_SLOT + i] = result.get(i).copy();
-			}
-		}
-		return false;
+		ArrayList<ItemStack> results = new ArrayList<ItemStack>();
+		ItemStack currentItem = currentStack
+		results = AtomFunctions.getDecomposerRecipeForEntity(this.currentStack);
+		AtomFunctions.DoSpawnDecomposerResult(this.worldObj.getBlockAt(this.x, this.y, this.z), results);
+		return true
 }
 
 	@Override
