@@ -46,53 +46,70 @@ public class ContainerChemicalDecomposer extends Container {
 
 	public final int INPUT_SLOTS_COUNT = 1;
 	public final int OUTPUT_SLOTS_COUNT = 18;
-	public final int SLOTS_TOTAL_COUNT = 19;
+	public final int SLOTS_TOTAL_COUNT = 27;
 
 	private final int VANILLA_FIRST_SLOT_INDEX = 0;
 	private final int FIRST_INPUT_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
 	// slot number is the slot number within each component; i.e. invPlayer slots 0 - 35, and tileInventoryFurnace slots 0 - 14
-	private final int FIRST_INPUT_SLOT_NUMBER = 0 + INPUT_SLOTS_COUNT;
-	private final int FIRST_OUTPUT_SLOT_NUMBER = FIRST_INPUT_SLOT_NUMBER + INPUT_SLOTS_COUNT;
 
 	public ContainerChemicalDecomposer(InventoryPlayer invPlayer, TileChemicalDecomposer tileChemicalDecomposer) {
 		this.tileChemicalDecomposer = tileChemicalDecomposer;
-
-		final int SLOT_X_SPACING = 18;
-		final int SLOT_Y_SPACING = 18;
-	    int i;
-	       for (i = 0; i < 3; ++i)
-	       {
-	           for (int j = 0; j < 9; ++j)
-	           {
-	               addSlotToContainer(new Slot(invPlayer, j+i*9+9, 
-	               8+j*18, 84+i*18));
-	           }
-	       }
-
-	       for (i = 0; i < 9; ++i)
-	       {
-	           addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 
-	           142));
-	       }
-
-		final int INPUT_SLOTS_XPOS = 79;
-		final int INPUT_SLOTS_YPOS = 15;
-		// Add the tile input slots
-		addSlotToContainer(new SlotInput(tileChemicalDecomposer, 0, INPUT_SLOTS_XPOS, INPUT_SLOTS_YPOS + SLOT_Y_SPACING));
-
-		final int OUTPUT_SLOTS_XPOS = 7;
-		final int OUTPUT_SLOTS_YPOS = 61;
-		// Add the tile output slots
-		for (int y = 0; y < OUTPUT_SLOTS_COUNT; y++) {
-			int slotNumber = y + FIRST_OUTPUT_SLOT_NUMBER;
-			if (y % 2 == 1) {
-				addSlotToContainer(new SlotOutput(tileChemicalDecomposer, slotNumber, OUTPUT_SLOTS_XPOS * y, OUTPUT_SLOTS_YPOS + (SLOT_Y_SPACING * y)));
-			}
-			else {
-				addSlotToContainer(new SlotOutput(tileChemicalDecomposer, slotNumber, OUTPUT_SLOTS_XPOS + (SLOT_X_SPACING * y), SLOT_Y_SPACING * y));
-			}
-		}
+        addSlotToContainer(new Slot(invPlayer, 0, 8, 159));
+        addSlotToContainer(new Slot(invPlayer, 1, 26, 159));
+        addSlotToContainer(new Slot(invPlayer, 2, 44, 159));
+        addSlotToContainer(new Slot(invPlayer, 3, 62, 159));
+        addSlotToContainer(new Slot(invPlayer, 4, 80, 159));
+        addSlotToContainer(new Slot(invPlayer, 5, 98, 159));
+        addSlotToContainer(new Slot(invPlayer, 6, 116, 159));
+        addSlotToContainer(new Slot(invPlayer, 7, 134, 159));
+        addSlotToContainer(new Slot(invPlayer, 8, 152, 159));
+        addSlotToContainer(new Slot(invPlayer, 9, 8, 137));
+        addSlotToContainer(new Slot(invPlayer, 10, 26, 137));
+        addSlotToContainer(new Slot(invPlayer, 11, 44, 137));
+        addSlotToContainer(new Slot(invPlayer, 12, 62, 137));
+        addSlotToContainer(new Slot(invPlayer, 13, 80, 137));
+        addSlotToContainer(new Slot(invPlayer, 14, 98, 137));
+        addSlotToContainer(new Slot(invPlayer, 15, 116, 137));
+        addSlotToContainer(new Slot(invPlayer, 16, 134, 137));
+        addSlotToContainer(new Slot(invPlayer, 17, 152, 137));
+        addSlotToContainer(new Slot(invPlayer, 18, 8, 119));
+        addSlotToContainer(new Slot(invPlayer, 19, 26, 119));
+        addSlotToContainer(new Slot(invPlayer, 20, 44, 119));
+        addSlotToContainer(new Slot(invPlayer, 21, 62, 119));
+        addSlotToContainer(new Slot(invPlayer, 22, 80, 119));
+        addSlotToContainer(new Slot(invPlayer, 23, 98, 119));
+        addSlotToContainer(new Slot(invPlayer, 24, 116, 119));
+        addSlotToContainer(new Slot(invPlayer, 25, 134, 119));
+        addSlotToContainer(new Slot(invPlayer, 26, 152, 119));
+        addSlotToContainer(new Slot(invPlayer, 27, 8, 101));
+        addSlotToContainer(new Slot(invPlayer, 28, 26, 101));
+        addSlotToContainer(new Slot(invPlayer, 29, 44, 101));
+        addSlotToContainer(new Slot(invPlayer, 30, 62, 101));
+        addSlotToContainer(new Slot(invPlayer, 31, 80, 101));
+        addSlotToContainer(new Slot(invPlayer, 32, 98, 101));
+        addSlotToContainer(new Slot(invPlayer, 33, 116, 101));
+        addSlotToContainer(new Slot(invPlayer, 34, 134, 101));
+        addSlotToContainer(new Slot(invPlayer, 35, 152, 101));
+		addSlotToContainer(new SlotInput(tileChemicalDecomposer, 0, 79, 15));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 1, 7, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 2, 25, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 3, 43, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 4, 61, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 5, 79, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 6, 97, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 7, 115, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 8, 133, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 9, 151, 79));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 10, 7, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 11, 25, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 12, 43, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 13, 61, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 14, 79, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 15, 97, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 16, 115, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 17, 133, 61));
+		addSlotToContainer(new SlotOutput(tileChemicalDecomposer, 18, 151, 61));
 	}
 
 	// Checks each tick to make sure the player is still able to access the inventory and if not closes the gui
@@ -105,6 +122,7 @@ public class ContainerChemicalDecomposer extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex)
 	{
+		System.out.println(sourceSlotIndex);
 		Slot sourceSlot = (Slot)inventorySlots.get(sourceSlotIndex);
 		if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
 		ItemStack sourceStack = sourceSlot.getStack();
@@ -116,7 +134,7 @@ public class ContainerChemicalDecomposer extends Container {
 			// If the stack is smeltable try to merge merge the stack into the input slots
 			try {
 				if (RecipeConfig.getDecomposerRecipeForEntity(sourceStack) != null) {
-					if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)){
+					if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
 						return null;
 					}
 				}	else {

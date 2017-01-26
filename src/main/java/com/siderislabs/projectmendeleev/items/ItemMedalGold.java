@@ -24,8 +24,8 @@ public void addInformation(ItemStack item, EntityPlayer player, List<String> too
 	System.out.println("Player: " + player.getName());
 	String tmp = player.getName();
 	if (tmp.contains("TehNut")) {
+		tooltip.add("Order of the Blinded Sage: Omega Class");
 		tooltip.add("Awarded to: TehNut");
-		tooltip.add("Grade: Gold");
 		tooltip.add("Issued: January 1st, 2017");
 	}
 	else {

@@ -31,23 +31,18 @@ public class BlockChemicalDecomposer extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
+		// TODO Auto-generated method stub
 		return new TileChemicalDecomposer();
 	}
 	
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if(heldItem != null) {
-			if(AtomFunctions.GetDoesItemHaveRecipe(heldItem) == 1) {
-				TileEntity tileEntity = worldIn.getTileEntity(pos);
-				tileEntity.currentStack = heldItem;
-				heldItem = null;
-				return true;
-			}
+		// Uses the gui handler registered to your mod to open the gui for the given gui id
+		// open on the server side only  (not sure why you shouldn't open client side too... vanilla doesn't, so we better not either)
+		if (!worldIn.isRemote) {
+			playerIn.openGui(Starter.instance, GUIHandlerChemDecomp.getGuiID(), worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
-		else {
-			return false;
-		}
+		return true;
 	}
-	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{

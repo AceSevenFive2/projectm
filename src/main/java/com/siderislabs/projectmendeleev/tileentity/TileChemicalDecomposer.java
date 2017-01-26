@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import com.siderislabs.projectmendeleev.config.RecipeConfig;
 
-import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -17,39 +16,76 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.config.Configuration;
 
-public class TileChemicalDecomposer extends TileEntity implements ITickable {
+public class TileChemicalDecomposer extends TileEntity implements IInventory, ITickable {
 
-	private ItemStack currentStack = new ItemStack();
+	public static final int INPUT_SLOTS_COUNT = 1;
+	public static final int OUTPUT_SLOTS_COUNT = 18;
+	public static final int TOTAL_SLOTS_COUNT = 19;
+	public static final int FIRST_INPUT_SLOT = 0;
+	public static final int FIRST_OUTPUT_SLOT = 1;
+	private ItemStack[] itemStacks = new ItemStack[TOTAL_SLOTS_COUNT];
 	public Configuration mainConfig;
 
-	public void update() throws IOException {
-		if(currentStack != null) {
-			doDecomposeItem();
+	public void update() {
+		if(itemStacks[FIRST_INPUT_SLOT] != null ) {
+			System.out.println(itemStacks[FIRST_INPUT_SLOT]);
+			try {
+				doDecomposeItem();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	private boolean doDecomposeItem() throws IOException {
-		ArrayList<ItemStack> results = new ArrayList<ItemStack>();
-		ItemStack currentItem = currentStack
-		results = AtomFunctions.getDecomposerRecipeForEntity(this.currentStack);
-		AtomFunctions.DoSpawnDecomposerResult(this.worldObj.getBlockAt(this.x, this.y, this.z), results);
-		return true
+		Integer tmp = 0;
+		System.out.println("Started to decompose item");
+		ArrayList<ItemStack> result = null;
+		for (int i = FIRST_OUTPUT_SLOT; i < OUTPUT_SLOTS_COUNT; i++) {
+			if(itemStacks[i] != null) {
+				tmp = tmp + 1;
+			}
+		}
+		if (tmp == OUTPUT_SLOTS_COUNT) {
+			return false;
+		}
+		else {
+			System.out.println("Getting recipe for item");
+			result = RecipeConfig.getDecomposerRecipeForEntity(itemStacks[FIRST_INPUT_SLOT]);
+			System.out.println(result.toString());
+			for(int i = 0; i < result.size(); i++) {
+				for(int j = 1; j < itemStacks.length; j++) {
+					System.out.println(itemStacks[j]);
+					if(itemStacks[j] == null) {
+						for(int k = 1; i <= itemStacks[j].stackSize; i++) {
+							if(itemStacks[j] != null) {
+								itemStacks[j] = result.get(i).copy();
+							}
+							else {
+								itemStacks[j].stackSize += 1;
+							}
+						}
+					}
+					else {
+						//nothing yet
+					}
+				}
+			}
+			this.decrStackSize(FIRST_INPUT_SLOT, 1);
+		}
+		return false;
 }
 
 	@Override
-	public void tick() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int getSizeInventory() {
-		return itemStacks.length;
+		return 19;
 	}
 
 	@Override
@@ -290,5 +326,10 @@ public class TileChemicalDecomposer extends TileEntity implements ITickable {
 
 	@Override
 	public void closeInventory(EntityPlayer player) {}
+
+	public void tick() {
+		// TODO Auto-generated method stub	
+	}
+
 
 }

@@ -19,7 +19,6 @@ public class GUIHandlerChemDecomp implements IGuiHandler {
 		if (ID != getGuiID()) {
 			System.err.println("Invalid ID: expected " + getGuiID() + ", received " + ID);
 		}
-
 		BlockPos xyz = new BlockPos(x, y, z);
 		TileEntity tileEntity = world.getTileEntity(xyz);
 		if (tileEntity instanceof TileChemicalDecomposer) {
@@ -29,13 +28,11 @@ public class GUIHandlerChemDecomp implements IGuiHandler {
 		return null;
 	}
 
-	// Gets the client side element for the given gui id this should return a gui
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if (ID != getGuiID()) {
 			System.err.println("Invalid ID: expected " + getGuiID() + ", received " + ID);
 		}
-
 		BlockPos xyz = new BlockPos(x, y, z);
 		TileEntity tileEntity = world.getTileEntity(xyz);
 		if (tileEntity instanceof TileChemicalDecomposer) {
