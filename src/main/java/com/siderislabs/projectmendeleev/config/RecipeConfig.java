@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 import com.siderislabs.projectmendeleev.Starter;
-import com.siderislabs.projectmendeleev.functions.AtomFunctions;
+import com.siderislabs.projectmendeleev.functions.ElementFunctions;
 
 import net.minecraft.item.ItemStack;
 
@@ -29,7 +29,7 @@ public class RecipeConfig {
 			ArrayList<ItemStack> results = new ArrayList<ItemStack>();
 			for (int i = 1; i < fileContents2.length; i++) {
 				if(i % 2 == 1 ) {
-					results.add(AtomFunctions.GetElementData(fileContents2[i], Integer.valueOf(fileContents2[i + 1])));	
+					results.add(ElementFunctions.RetrieveElementFromString(fileContents2[i], Integer.valueOf(fileContents2[i + 1])));	
 				}
 			}
 			System.out.println("Found the thing");
